@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Eid Salami Quiz 🎉</title>
+<style>
+body {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  background: linear-gradient(to right,#fff9c4,#c8e6c9);
+  padding: 20px;
+  margin:0;
+  overflow-x:hidden;
+}
+h2 {
+  text-align:center;
+  color:#d84315;
+  text-shadow:1px 1px 2px #fff;
+}
+.question {
+  margin-bottom:20px;
+  padding:15px;
+  background:#fffde7;
+  border-radius:15px;
+  border:2px solid #ffecb3;
+  box-shadow:2px 2px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+label {
+  display:block;
+  margin:5px 0;
+  cursor:pointer;
+  color:#6d4c41;
+}
+button {
+  padding:10px 20px;
+  font-size:16px;
+  cursor:pointer;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(45deg,#ffecb3,#ffd54f);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+button:hover {
+  transform:scale(1.05);
+  box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+#overlay{
+  position:fixed;
+  top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,0.3);
+  display:none;
+  z-index:1000;
+}
+.confetti-piece{
+  position:fixed;width:10px;height:10px;
+  pointer-events:none;opacity:0.9;
+  animation:fall 3s linear forwards;
+}
+@keyframes fall{to{transform:translateY(100vh) rotate(360deg);opacity:0;}}
+.firework{
+  position:fixed;border-radius:50%;width:10px;height:10px;
+  pointer-events:none;animation:explode 1s ease-out forwards;
+}
+@keyframes explode{0%{transform:scale(0);opacity:1;}100%{transform:scale(4);opacity:0;}}
+.floating{
+  position:fixed;pointer-events:none;
+  animation:floaty 6s infinite ease-in-out;
+}
+@keyframes floaty{
+  0%{transform:translateY(0) rotate(0deg);}
+  50%{transform:translateY(-50px) rotate(180deg);}
+  100%{transform:translateY(0) rotate(360deg);}
+}
+</style>
+</head>
+<body>
+
+<h2>✨ Eid Salami Quiz ✨</h2>
+
+<div id="quiz"></div>
+
+<div style="text-align:center;">
+  <button onclick="submitQuiz()">Submit & Reveal 💰</button>
+</div>
+
+<div id="overlay"></div>
+
+<script>
+const questions=[
+{q:"Things that I wait for every Eid", options:[{text:"Khalamoni's chotpoti",score:10},{text:"Caci's nunor bora",score:5},{text:"My handesh",score:7},{text:"Amma's fob",score:4}]},
+{q:"Hijab color this Eid?", options:[{text:"Blackish",score:6},{text:"Whitish",score:3},{text:"Not decided",score:10},{text:"Not found",score:2}]},
+{q:"Salami paile ami ki kori?", options:[{text:"Joma kori",score:2},{text:"Unnecessary khoroch kori",score:10},{text:"Barbar gune dekhi",score:4},{text:"Phone cover e rakhi",score:8}]},
+{q:"Main kaaj Eid e?", options:[{text:"Khaoa",score:6},{text:"Ghum",score:2},{text:"Guest face",score:4},{text:"Phone busy",score:8}]},
+{q:"Energy level?", options:[{text:"High",score:3},{text:"Medium",score:4},{text:"Low",score:3},{text:"Khaowar time high",score:10}]},
+{q:"Biggest struggle?", options:[{text:"Shokale utha",score:4},{text:"Ready howa",score:3},{text:"Guest face",score:6},{text:"Sob gula",score:8}]},
+{q:"Mood destroy reason?", options:[{text:"Gorom",score:5},{text:"Rain",score:6},{text:"Ghum pawa",score:7}]}
+];
+
+const quizDiv=document.getElementById("quiz");
+questions.forEach((q,index)=>{
+  const div=document.createElement("div");
+  div.className="question";
+  let html=`<p>🎈 ${q.q}</p>`;
+  q.options.forEach(opt=>{
+    html+=`<label><input type="radio" name="q${index}" value="${opt.score}"> ${opt.text}</label>`;
+  });
+  div.innerHTML=html;
+  quizDiv.appendChild(div);
+});
+
+function submitQuiz(){
+  let total=0;
+  questions.forEach((q,index)=>{
+    const selected=document.querySelector(`input[name="q${index}"]:checked`);
+    if(selected) total+=parseInt(selected.value);
+  });
+  total+=Math.floor(Math.random()*6);
+  if(total>100) total=100;
+
+  const overlay=document.getElementById("overlay");
+  overlay.style.display="block";
+
+  launchConfetti();
+  launchFireworks();
+  launchDecorations();
+
+  setTimeout(()=>{
+    const resultWindow=window.open("","_blank");
+    resultWindow.document.write(`
+      <html>
+      <head>
+        <title>Your Eid Salami Score</title>
+        <style>
+          body{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            flex-direction:column;
+            height:100vh;
+            background:linear-gradient(to right,#fff9c4,#c8e6c9);
+            font-family:'Comic Sans MS',cursive,sans-serif;
+            text-align:center;
+          }
+          h1{font-size:48px;color:#d84315;margin-bottom:20px;}
+          p{font-size:24px;color:#6d4c41;}
+        </style>
+      </head>
+      <body>
+        <h1>🎉 Tumi peyecho: ${total}৳ 💰 🎉</h1>
+        <p>Send this screenshot to her and grab your Eidi💸</p>
+      </body>
+      </html>
+    `);
+    overlay.style.display="none";
+  },3500);
+}
+
+function launchConfetti(){
+  for(let i=0;i<100;i++){
+    const c=document.createElement("div");
+    c.className="confetti-piece";
+    c.style.background=`hsl(${Math.random()*360},80%,60%)`;
+    c.style.left=Math.random()*100+"vw";
+    c.style.top="-10px";
+    c.style.animationDuration=2+Math.random()*2+"s";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),4000);
+  }
+}
+
+function launchFireworks(){
+  for(let i=0;i<30;i++){
+    const f=document.createElement("div");
+    f.className="firework";
+    f.style.background=`hsl(${Math.random()*360},100%,50%)`;
+    f.style.left=Math.random()*100+"vw";
+    f.style.top=Math.random()*50+"vh";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1200);
+  }
+}
+
+function launchDecorations(){
+  const deco=["🎈","🪔","🌟"];
+  for(let i=0;i<20;i++){
+    const d=document.createElement("div");
+    d.className="floating";
+    d.innerText=deco[Math.floor(Math.random()*deco.length)];
+    d.style.left=Math.random()*100+"vw";
+    d.style.top=Math.random()*80+"vh";
+    d.style.fontSize=15+Math.random()*25+"px";
+    document.body.appendChild(d);
+    setTimeout(()=>d.remove(),4000);
+  }
+}
+</script>
+
+</body>
+</html>
