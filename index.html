@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Eid Salami Quiz ðŸŽ‰</title>
+<title>Eid Salami Quiz 🎉</title>
 <style>
 body {
   font-family: 'Comic Sans MS', cursive, sans-serif;
@@ -75,12 +75,12 @@ button:hover {
 </head>
 <body>
 
-<h2>âœ¨ Eid Salami Quiz âœ¨</h2>
+<h2>✨ Eid Salami Quiz ✨</h2>
 
 <div id="quiz"></div>
 
 <div style="text-align:center;">
-  <button onclick="submitQuiz()">Submit & Reveal ðŸ’°</button>
+  <button onclick="submitQuiz()">Submit & Reveal 💰</button>
 </div>
 
 <div id="overlay"></div>
@@ -100,7 +100,7 @@ const quizDiv=document.getElementById("quiz");
 questions.forEach((q,index)=>{
   const div=document.createElement("div");
   div.className="question";
-  let html=`<p>ðŸŽˆ ${q.q}</p>`;
+  let html=`<p>🎈 ${q.q}</p>`;
   q.options.forEach(opt=>{
     html+=`<label><input type="radio" name="q${index}" value="${opt.score}"> ${opt.text}</label>`;
   });
@@ -129,6 +129,7 @@ function submitQuiz(){
     resultWindow.document.write(`
       <html>
       <head>
+        <meta charset="UTF-8">
         <title>Your Eid Salami Score</title>
         <style>
           body{
@@ -146,8 +147,8 @@ function submitQuiz(){
         </style>
       </head>
       <body>
-        <h1>ðŸŽ‰ Tumi peyecho: ${total}à§³ ðŸ’° ðŸŽ‰</h1>
-        <p>Send this screenshot to her and grab your EidiðŸ’¸</p>
+        <h1>&#127881; Tumi peyecho: ${total}&#2547; &#128176; &#127881;</h1>
+        <p>Send this screenshot to her and grab your Eidi💸</p>
       </body>
       </html>
     `);
@@ -181,7 +182,7 @@ function launchFireworks(){
 }
 
 function launchDecorations(){
-  const deco=["ðŸŽˆ","ðŸª”","ðŸŒŸ"];
+  const deco=["🎈","🪔","🌟"];
   for(let i=0;i<20;i++){
     const d=document.createElement("div");
     d.className="floating";
